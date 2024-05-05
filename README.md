@@ -11,7 +11,7 @@ Both nginx and web server have dockerfiles for building them and compose.yaml fo
 - **compose.yaml** contains configuration for docker compose that builds web server and nginx dockerfiles
 
 
-## Dockerfile for web application
+## `Dockerfile` for web application
     FROM python:3.8
 
     WORKDIR /usr/src/app
@@ -24,7 +24,7 @@ Both nginx and web server have dockerfiles for building them and compose.yaml fo
 
     CMD ["python", "./app.py"]
 
-## Dockerfile for nginx
+## `Dockerfile` for nginx
     FROM nginx:latest
 
     RUN rm /etc/nginx/conf.d/default.conf
