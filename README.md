@@ -23,3 +23,45 @@ Both nginx and web server have dockerfiles for building them and compose.yaml fo
     EXPOSE 5000
 
     CMD ["python", "./app.py"]
+
+## Dockerfile for nginx
+    FROM nginx:latest
+
+    RUN rm /etc/nginx/conf.d/default.conf
+
+    COPY nginx.conf /etc/nginx/nginx.conf
+
+    # debugging
+    #RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
+    #RUN service nginx start
+    #RUN nginx -t
+
+    EXPOSE 80
+
+## Docker compose file `compose.yaml`
+    version: '3.8'
+
+    services:
+        nginx-reverse-proxy:
+            build:
+                context: nginx-reverse-proxy/
+                dockerfile: Dockerfile
+            ports:
+                - "80:80"
+            depends_on:
+                - flask
+            networks:
+                - back-tier
+
+        flask:
+            build:
+                context: .
+                dockerfile: Dockerfile
+            ports:
+                - "5000:5000"
+            networks:
+                - back-tier
+
+    networks:
+        back-tier:
+            driver: bridge
