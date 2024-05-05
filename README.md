@@ -9,3 +9,17 @@ Both nginx and web server have dockerfiles for building them and compose.yaml fo
 - **Dockerfile** is a file to build the Flask Web server
 - **app.py** is a file with python code that contains web server implementation
 - **compose.yaml** contains configuration for docker compose that builds web server and nginx dockerfiles
+
+
+## Dockerfile for web application
+    FROM python:3.8
+
+    WORKDIR /usr/src/app
+    COPY . .
+
+    RUN pip install Flask
+    RUN pip install python-dotenv
+
+    EXPOSE 5000
+
+    CMD ["python", "./app.py"]
