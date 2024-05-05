@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  nginx-reverse-proxy:
+    build:
+      context: nginx-reverse-proxy/
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - flask
+    networks:
+      - back-tier
+
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    driver: bridge
